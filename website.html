@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviation Photography - Professional Aviation Images</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Beta Banner -->
+  <div class="beta-banner">
+    <div class="beta-content">
+      <span>🚧 WEBSITE IN BETA - GLITCHES MAY HAPPEN 🚧</span>
+      <span>🚧 WEBSITE IN BETA - GLITCHES MAY HAPPEN 🚧</span>
+      <span>🚧 WEBSITE IN BETA - GLITCHES MAY HAPPEN 🚧</span>
+      <span>🚧 WEBSITE IN BETA - GLITCHES MAY HAPPEN 🚧</span>
+      <span>🚧 WEBSITE IN BETA - GLITCHES MAY HAPPEN 🚧</span>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeAuthModal()">&times;</span>
+      <div class="auth-tabs">
+        <button id="loginTab" onclick="showAuthTab('login')">Login</button>
+        <button id="registerTab" onclick="showAuthTab('register')">Register</button>
+      </div>
+      <form id="loginForm" onsubmit="return handleLogin(event)" style="display:block;">
+        <h2>Login</h2>
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" required><br>
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" required><br>
+        <button type="submit">Login</button>
+        <div id="loginError" style="color:red; display:none;">Invalid credentials.</div>
+      </form>
+      <form id="registerForm" onsubmit="return handleRegister(event)" style="display:none;">
+        <h2>Register</h2>
+        <label for="registerUsername">Username:</label>
+        <input type="text" id="registerUsername" required><br>
+        <label for="registerPassword">Password:</label>
+        <input type="password" id="registerPassword" required><br>
+        <button type="submit">Register</button>
+        <div id="registerError" style="color:red; display:none;"></div>
+        <div id="registerSuccess" style="color:green; display:none;">Registration successful! You are now logged in.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="/">Aviation Photography</a>
+      </div>
+      <nav class="main-menu">
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#gallery">Media Gallery</a></li>
+          <li><a href="#prints">Print Store</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <div class="cart-icon" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+        <span id="currentUser" style="display:none;"></span>
+        <button id="loginRegisterBtn" onclick="openAuthModal()">Login / Register</button>
+        <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Professional Aviation Photography</h1>
+      <p>Capturing the beauty and power of flight through the lens</p>
+    </div>
+  </section>
+
+  <!-- Gallery Categories -->
+  <section id="gallery" class="gallery-section">
+    <div class="section-content">
+      <h2>Media Gallery</h2>
+      <div class="gallery-categories">
+        <div class="category-card" id="civil">
+          <div class="category-image">
+            <img src="images/IMG_3009.jpg" alt="Civil Aviation" />
+          </div>
+          <div class="category-content">
+            <h3>Civil</h3>
+            <p>Commercial airliners, private aircraft, and civil aviation</p>
+            <a href="#civil-gallery" class="view-more">View Gallery <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="category-card" id="military">
+          <div class="category-image">
+            <img src="images/military-placeholder.jpg" alt="Military Aviation" />
+          </div>
+          <div class="category-content">
+            <h3>Military</h3>
+            <p>Military aircraft and aviation (admin uploads only)</p>
+            <a href="#military-gallery" class="view-more">View Gallery <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Civil Aviation Gallery -->
+  <section id="civil-gallery" class="gallery-detail-section">
+    <div class="section-content">
+      <h2>Civil Aviation Gallery</h2>
+      <p class="section-intro">Capturing the elegance and power of commercial aviation</p>
+      <button id="civilUploadBtn" style="display:none;" onclick="showUploadForm('civil')">Upload Image (Admin Only)</button>
+      <div id="civilUploadForm" class="upload-form" style="display:none;"></div>
+      <div class="gallery-grid" id="civilGalleryGrid">
+        <!-- All plane gallery items removed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Military Aviation Gallery -->
+  <section id="military-gallery" class="gallery-detail-section">
+    <div class="section-content">
+      <h2>Military Aviation Gallery</h2>
+      <p class="section-intro">Showcasing military aircraft (admin uploads only)</p>
+      <button id="militaryUploadBtn" style="display:none;" onclick="showUploadForm('military')">Upload Image (Admin Only)</button>
+      <div id="militaryUploadForm" class="upload-form" style="display:none;"></div>
+      <div class="gallery-grid" id="militaryGalleryGrid">
+        <!-- All plane gallery items removed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Control Panel Modal -->
+  <div id="controlPanelModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeControlPanel()">&times;</span>
+      <h2>Control Panel</h2>
+      <p><strong>Visitors (demo):</strong></p>
+      <ul>
+        <li>Last 7 days: 42</li>
+        <li>Last 30 days: 123</li>
+        <li>Last 90 days: 312</li>
+      </ul>
+      <p><strong>Total Money Made (demo):</strong> £1,234.56</p>
+    </div>
+  </div>
+
+  <!-- Print Store -->
+  <section id="prints" class="prints-section">
+    <div class="section-content">
+      <h2>Print Store</h2>
+      <p class="section-intro">High-quality prints available in various sizes. Perfect for aviation enthusiasts and collectors.</p>
+      <div class="prints-grid">
+        <div class="print-item">
+          <div class="print-image">
+            <img src="images/IMG_3128.jpg" alt="Ryanair Boeing 737 Print" />
+            <div class="print-overlay">
+              <div class="print-actions">
+                <button class="btn-primary">Add to Cart</button>
+                <button class="btn-secondary">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="print-info">
+            <h3>Ryanair Boeing 737-800</h3>
+            <p class="print-description">Low-cost carrier in cruise flight</p>
+            <div class="print-options">
+              <div class="size-selector">
+                <label for="size-1">Select Size:</label>
+                <select id="size-1" class="size-select">
+                  <option value="">Choose size...</option>
+                  <option value="8x12" data-price="22">8" x 12" - £22</option>
+                  <option value="12x18" data-price="38">12" x 18" - £38</option>
+                  <option value="16x24" data-price="65">16" x 24" - £65</option>
+                  <option value="20x30" data-price="105">20" x 30" - £105</option>
+                </select>
+              </div>
+              <div class="quantity-selector">
+                <label for="qty-1">Quantity:</label>
+                <div class="quantity-controls">
+                  <button class="qty-btn" onclick="changeQuantity(1, -1)">-</button>
+                  <input type="number" id="qty-1" class="qty-input" value="1" min="1" max="10">
+                  <button class="qty-btn" onclick="changeQuantity(1, 1)">+</button>
+                </div>
+              </div>
+              <button class="add-to-cart-btn" onclick="addToCart(1, 'Ryanair Boeing 737-800', 'images/IMG_3128.jpg')">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="print-item">
+          <div class="print-image">
+            <img src="images/IMG_0454.jpg" alt="Aircraft Photography Print" />
+            <div class="print-overlay">
+              <div class="print-actions">
+                <button class="btn-primary">Add to Cart</button>
+                <button class="btn-secondary">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="print-info">
+            <h3>Emirates Boeing 777-300ER</h3>
+            <p class="print-description">Long-haul wide-body aircraft in flight</p>
+            <div class="print-options">
+              <div class="size-selector">
+                <label for="size-2">Select Size:</label>
+                <select id="size-2" class="size-select">
+                  <option value="">Choose size...</option>
+                  <option value="8x12" data-price="26">8" x 12" - £26</option>
+                  <option value="12x18" data-price="45">12" x 18" - £45</option>
+                  <option value="16x24" data-price="72">16" x 24" - £72</option>
+                  <option value="20x30" data-price="115">20" x 30" - £115</option>
+                </select>
+              </div>
+              <div class="quantity-selector">
+                <label for="qty-2">Quantity:</label>
+                <div class="quantity-controls">
+                  <button class="qty-btn" onclick="changeQuantity(2, -1)">-</button>
+                  <input type="number" id="qty-2" class="qty-input" value="1" min="1" max="10">
+                  <button class="qty-btn" onclick="changeQuantity(2, 1)">+</button>
+                </div>
+              </div>
+              <button class="add-to-cart-btn" onclick="addToCart(2, 'Emirates Boeing 777-300ER', 'images/IMG_0454.jpg')">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="print-item">
+          <div class="print-image">
+            <img src="images/IMG_3009.jpg" alt="Aviation Photography Print" />
+            <div class="print-overlay">
+              <div class="print-actions">
+                <button class="btn-primary">Add to Cart</button>
+                <button class="btn-secondary">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="print-info">
+            <h3>British Airways Airbus A320</h3>
+            <p class="print-description">Short-haul airliner on approach</p>
+            <div class="print-options">
+              <div class="size-selector">
+                <label for="size-3">Select Size:</label>
+                <select id="size-3" class="size-select">
+                  <option value="">Choose size...</option>
+                  <option value="8x12" data-price="25">8" x 12" - £25</option>
+                  <option value="12x18" data-price="45">12" x 18" - £45</option>
+                  <option value="16x24" data-price="75">16" x 24" - £75</option>
+                  <option value="20x30" data-price="120">20" x 30" - £120</option>
+                </select>
+              </div>
+              <div class="quantity-selector">
+                <label for="qty-3">Quantity:</label>
+                <div class="quantity-controls">
+                  <button class="qty-btn" onclick="changeQuantity(3, -1)">-</button>
+                  <input type="number" id="qty-3" class="qty-input" value="1" min="1" max="10">
+                  <button class="qty-btn" onclick="changeQuantity(3, 1)">+</button>
+                </div>
+              </div>
+              <button class="add-to-cart-btn" onclick="addToCart(3, 'British Airways Airbus A320', 'images/IMG_3009.jpg')">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="print-item">
+          <div class="print-image">
+            <img src="images/IMG_2370-Enhanced-NR.jpg" alt="Emirates Aircraft Print" />
+            <div class="print-overlay">
+              <div class="print-actions">
+                <button class="btn-primary">Add to Cart</button>
+                <button class="btn-secondary">View Details</button>
+              </div>
+            </div>
+          </div>
+          <div class="print-info">
+            <h3>Emirates Boeing 777-300ER</h3>
+            <p class="print-description">Enhanced wide-body aircraft photography</p>
+            <div class="print-options">
+              <div class="size-selector">
+                <label for="size-4">Select Size:</label>
+                <select id="size-4" class="size-select">
+                  <option value="">Choose size...</option>
+                  <option value="8x12" data-price="28">8" x 12" - £28</option>
+                  <option value="12x18" data-price="52">12" x 18" - £52</option>
+                  <option value="16x24" data-price="85">16" x 24" - £85</option>
+                  <option value="20x30" data-price="135">20" x 30" - £135</option>
+                </select>
+              </div>
+              <div class="quantity-selector">
+                <label for="qty-4">Quantity:</label>
+                <div class="quantity-controls">
+                  <button class="qty-btn" onclick="changeQuantity(4, -1)">-</button>
+                  <input type="number" id="qty-4" class="qty-input" value="1" min="1" max="10">
+                  <button class="qty-btn" onclick="changeQuantity(4, 1)">+</button>
+                </div>
+              </div>
+              <button class="add-to-cart-btn" onclick="addToCart(4, 'Emirates Boeing 777-300ER', 'images/IMG_2370-Enhanced-NR.jpg')">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Contact -->
+  <section id="contact" class="contact-section">
+    <div class="section-content">
+      <h2>Contact</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3>Get in Touch</h3>
+          <p>For photo enquiries, print orders, or custom photography services:</p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>contact@aviationphotography.com</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <span>+1 (555) 123-4567</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Aviation City, USA</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form">
+          <form>
+            <div class="form-group">
+              <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <select>
+                <option>Select Service</option>
+                <option>Print Order</option>
+                <option>Custom Photography</option>
+                <option>Licensing</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea placeholder="Your Message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Aviation Photography</h4>
+        <p>Professional aviation photography capturing the beauty and power of flight.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#prints">Print Store</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Gallery Categories</h4>
+        <ul>
+          <li><a href="#civil">Civil Aviation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Aviation Photography. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Sidebar -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Shopping Cart</h3>
+      <button class="close-cart" onclick="toggleCart()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be added here dynamically -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cartTotal">£0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">
+        <i class="fab fa-paypal"></i> Checkout with PayPal
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+  <script src="website.js"></script>
+</body>
+</html>
