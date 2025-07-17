@@ -20,36 +20,6 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
-  <div id="authModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close" onclick="closeAuthModal()">&times;</span>
-      <div class="auth-tabs">
-        <button id="loginTab" onclick="showAuthTab('login')">Login</button>
-        <button id="registerTab" onclick="showAuthTab('register')">Register</button>
-      </div>
-      <form id="loginForm" onsubmit="return handleLogin(event)" style="display:block;">
-        <h2>Login</h2>
-        <label for="loginUsername">Username:</label>
-        <input type="text" id="loginUsername" required><br>
-        <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" required><br>
-        <button type="submit">Login</button>
-        <div id="loginError" style="color:red; display:none;">Invalid credentials.</div>
-      </form>
-      <form id="registerForm" onsubmit="return handleRegister(event)" style="display:none;">
-        <h2>Register</h2>
-        <label for="registerUsername">Username:</label>
-        <input type="text" id="registerUsername" required><br>
-        <label for="registerPassword">Password:</label>
-        <input type="password" id="registerPassword" required><br>
-        <button type="submit">Register</button>
-        <div id="registerError" style="color:red; display:none;"></div>
-        <div id="registerSuccess" style="color:green; display:none;">Registration successful! You are now logged in.</div>
-      </form>
-    </div>
-  </div>
-
   <!-- Header / Navigation -->
   <header class="site-header">
     <div class="nav-container">
@@ -69,9 +39,6 @@
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-count" id="cartCount">0</span>
         </div>
-        <span id="currentUser" style="display:none;"></span>
-        <button id="loginRegisterBtn" onclick="openAuthModal()">Login / Register</button>
-        <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
       </div>
     </div>
   </header>
@@ -121,7 +88,16 @@
       <button id="civilUploadBtn" style="display:none;" onclick="showUploadForm('civil')">Upload Image (Admin Only)</button>
       <div id="civilUploadForm" class="upload-form" style="display:none;"></div>
       <div class="gallery-grid" id="civilGalleryGrid">
-        <!-- All plane gallery items removed -->
+        <div class="gallery-item">
+          <img src="images/IMG_3128.jpg" alt="RyanAir 737-800 arriving into Newcastle Airport" />
+          <div class="gallery-overlay">
+            <div class="gallery-info">
+              <h3>Ryanair Boeing 737-800</h3>
+              <p>RyanAir 737-800 arriving into Newcastle Airport</p>
+              <span class="aircraft-type">Boeing 737-800</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
