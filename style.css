@@ -1387,3 +1387,42 @@ textarea:focus {
     font-size: 1rem;
   }
 }
+
+/* Coming Soon Message Styles */
+.coming-soon-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border-radius: 12px;
+  border: 2px solid #333;
+}
+
+.coming-soon-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 400px;
+}
+
+.coming-soon-content i {
+  font-size: 4rem;
+  color: #4eaaff;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.coming-soon-content h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.coming-soon-content p {
+  color: #ccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
